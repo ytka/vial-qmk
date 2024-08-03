@@ -1,36 +1,84 @@
-# Included Keyboards
+# Keyball series
 
-QMK runs on a diverse range of keyboards. Some of these keyboards are well maintained and see constant community contributions, while others are part of the repository for historical reasons.
+This directory includes source code of Keyball keyboard series:
 
-## Official QMK Keyboards
+| Name          | Description
+|---------------|-------------------------------------------------------------
+|[Keyball46](./keyball46)|A split keyboard with 46 vertically staggered keys and 34mm track ball.
+|[Keyball61](./keyball61)|A split keyboard with 61 vertically staggered keys and 34mm track ball.
+|[Keyball39](./keyball39)|A split keyboard with 39 vertically staggered keys and 34mm track ball.
+|[ONE47](./one47)|A keyboard with 47 vertically keys and 34mm trackball. It will support BLE Micro Pro.
+|[Keyball44](./keyball44)|A split keyboard with 44 vertically staggered keys and 34mm track ball.
 
-### Ortholinear Keyboards - Jack Humbert
+* Keyboard Designer: [@Yowkees](https://twitter.com/Yowkees)  
+* Hardware Supported: ProMicro like footprint
+* Hardware Availability: See [Where to Buy](../../../README.md#where-to-buy)
 
-What makes OLKB keyboards shine is a combo of lean aesthetics, compact size, and killer tactile feel. These are available through [olkb.com](http://olkb.com) as well as through [Massdrop](http://massdrop.com) from time to time, as easy to assemble kits.
+See each directories for each keyboards in a table above.
 
-* [Planck](/keyboards/planck/) &mdash; A 40% DIY powerhouse of customizability and modification capability. It's a lean, mean, typing machine.
-* [Preonic](/keyboards/preonic/) &mdash; Like the Planck, but bigger. 50%.
-* [Atomic](/keyboards/atomic/) &mdash; Imagine the size of the Planck. Now imagine the size of the Preonic. Now imagine _bigger_. That is the Atomic. A 60% keyboard.
+## How to build
 
-### Clueboard - Zach White
+1. Check out this repository.
 
-Designed and built in Felton, CA, Clueboards keyboard emphasize quality and locally sourced components.
+    ```console
+    $ git clone https://github.com/Yowkees/keyball.git keyball
+    ```
 
-* [Clueboard](/keyboards/clueboard/66/) &mdash; The 66% custom keyboard.
-* [Cluecard](/keyboards/clueboard/card/) &mdash; A small board to help you hack on QMK.
-* [Cluepad](/keyboards/clueboard/17/) &mdash; A mechanical numpad with QMK superpowers.
+2. Check out [qmk/qmk_firmware](https://github.com/qmk/qmk_firmware/) repository in another place.
 
-### Moonlander, ErgoDox EZ and Planck EZ - ZSA Technology Labs
+    ```console
+    $ git clone https://github.com/qmk/qmk_firmware.git --depth 1 --recurse-submodules --shallow-submodules -b 0.22.14 qmk
+    ```
 
-[ZSA Technology Labs](https://zsa.io) maintains its own [fork of QMK](https://github.com/zsa/qmk_firmware) which feeds its [configurator](https://configure.zsa.io), for stability and legal purposes. The ZSA boards are:
+    Currently Keyball firmwares are verified to compile with QMK 0.22.14
 
-* [Moonlander Mark I](/keyboards/moonlander/) &mdash; A next-gen split, ergonomic keyboard with an active left side, USB type C, integrated wrist rest, and a thumb cluster that can move.
-* [ErgoDox EZ](/keyboards/ergodox_ez/) &mdash; A powerful split mechanical keyboard.
-* [Planck EZ](/keyboards/planck/ez) &mdash; A 40% DIY powerhouse of customizability and modification capability. It's a lean, mean, typing machine, which ships fully assembled with a two-year warranty.
+3. Create a symbolic link to this `keyball/` directory from [qmk/qmk_firmware]'s `keyboards/` directory.
 
+    ```console
+    $ ls
+    keyball/ qmk/
 
-## Community-supported QMK Keyboards
+    $ cd qmk/keyboards
+    $ ln -s ../../keyball/qmk_firmware/keyboards/keyball keyball
+    $ ls keyball/
+    drivers/  keyball39/  keyball44/  keyball46/  keyball61/  lib/  one47/  readme.md
+    $ cd ..
+    ```
 
-These keyboards are part of the QMK repository, but their manufacturers are not official maintainers of the repository.
+4. `make` your Keyball firmware.
 
-Since there are too many to list here and keep updated, please see the folder listing instead.
+    ```console
+    # Build Keyball39 firmware with "default" keymap
+    $ make SKIP_GIT=yes keyball/keyball39:default
+
+    # Build Keyball44 firmware with "default" keymap
+    $ make SKIP_GIT=yes keyball/keyball44:default
+
+    # Build Keyball61 firmware with "default" keymap
+    $ make SKIP_GIT=yes keyball/keyball61:default
+    ```
+
+There are three keymaps provided at least:
+
+* `via` - Standard version with [Remap](https://remap-keys.app/) or VIA to change keymap
+* `test` - Easy-to-use version for checking operation at build time
+* `default` - Base version for creating your own customized firmware
+
+## How to create your keymap
+
+1. Fork this Yowkees/keyball repository
+2. Checkout forked repository
+3. (OPTIONAL) Create a new branch
+4. Add a your keymap, or make some changes
+5. Commit changes and push it to your forked repository
+6. Open your forked repository with web browser
+7. Click and open "Actions" tab
+8. Click "Build a firmware on demand" in Workflows on left panel
+9. Press "Run workflow" button on right side, then you will see forms
+10. (OPTIONAL) Select a your working branch
+11. Select a "Keyboard" from drop-down list
+12. Enter the "keymap" you want to build
+13. Click "Run workflow"
+14. Wait a minute until the firmware build is finished
+15. Click a latest workflow run and open details
+16. Download built firmware in "Artifacts" section
