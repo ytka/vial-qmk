@@ -39,5 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define AUTO_MOUSE_DEFAULT_LAYER 1
 
 #define VIAL_KEYBOARD_UID {0x57, 0x3C, 0x33, 0xF6, 0x35, 0x09, 0x7A, 0x29}
-#define VIAL_UNLOCK_COMBO_ROWS { 0, 1 }
-#define VIAL_UNLOCK_COMBO_COLS { 0, 0 }
+//#define VIAL_UNLOCK_COMBO_ROWS { 0, 1 }
+//#define VIAL_UNLOCK_COMBO_COLS { 0, 0 }
+
+//#define DYNAMIC_KEYMAP_LAYER_COUNT 3
